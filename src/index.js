@@ -7,6 +7,13 @@ import thunk from 'redux-thunk';
 import axios from 'axios';
 import moment from 'moment';
 
+const prefix = `#token=`
+console.log('window.location.hash.slice: ', window.location.hash.slice(7))
+if(window.location.hash.includes(prefix)){
+  const token = window.location.hash.slice(7)
+  window.localStorage.setItem('token', token);
+}
+
 /* STORE */
 const store = createStore(
     combineReducers({
@@ -91,10 +98,12 @@ class _Login extends Component{
   onChange(ev){
     this.setState({[ev.target.name]: ev.target.value });
   }
+
   render(){
     const { error, email, password } = this.state;
     const { onChange, attemptLogin } = this;
     return (
+      <div>
         <form>
           {
             error && <div className='error'>{ error }</div>
@@ -109,6 +118,8 @@ class _Login extends Component{
           </div>
           <button onClick={ attemptLogin }>Login</button>
         </form>
+        <a href='/githubLogin'>Github Login</a>
+      </div>
     );
   }
 }
